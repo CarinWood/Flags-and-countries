@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    @apply bg-black text-white;
+}
+
+h1, h2, h3, h4 {
+    @apply font-bold;
+}
+
+#show {
+    @apply block;
+}
+
+#hide {
+    @apply hidden;
+}
+
+#border {
+    @apply border-green-400 border-[1px] rounded;
+}
+
+#flag-border {
+    @apply border-green-400 border-[2px] rounded;
+}
+
+#red-border {
+    @apply border-red-600 border-[1.6px] rounded;
+}
+
+#red-flag-border {
+    @apply border-red-600 border-[2px] rounded;
+}
