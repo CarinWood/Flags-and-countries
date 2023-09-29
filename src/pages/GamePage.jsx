@@ -14,6 +14,7 @@ const GamePage = () => {
     const [chooseFlag, setChooseFlag] = useState(null)
     const [chooseName, setChooseName] = useState(null)
     const [wrongChoice, setWrongChoice] = useState(false)
+    const [rightChoice, setRightChoice] = useState('')
 
     useEffect(() => {
         if(gameOn) {
@@ -99,26 +100,34 @@ const GamePage = () => {
         setChoiceTwo(true)
     }
 
+    const deleteFromArray = () => {
+        console.log(chooseName)
+       setFlagArray(flagArray.filter(prev => prev.name.common !== chooseFlag))
+       setNameArray(nameArray.filter(prev => prev.name.common !== chooseName))
+    }
+
 
     const clearChoices = () => {
-          setTimeout(() => {
+        setTimeout(() => {
+            deleteFromArray()
             setChoiceOne('')
             setChoiceTwo('')
             setChooseFlag(null)
             setChooseName(null)
             setWrongChoice(false);
+         
 
-        }, 2000)
-      
+        }, 200)
+          
     }
 
     useEffect(() => {
     if (choiceOne && choiceTwo) {
-        console.log(chooseFlag)
-        console.log(chooseName)
         if (chooseFlag === chooseName) {
             console.log("It's a match!");
+            setRightChoice(chooseFlag)
             clearChoices();
+            
         } else {
             console.log("It's not a match");
             setWrongChoice(true);
@@ -167,6 +176,7 @@ const GamePage = () => {
                             chooseName={chooseName}
                             chooseNameFunc={chooseNameFunc}
                             wrongChoice={wrongChoice}
+                            rightChoice={rightChoice}
                         />
             })}
         </div>
@@ -185,6 +195,7 @@ const GamePage = () => {
                         chooseFlagFunc={chooseFlagFunc}
                         chooseFlag={chooseFlag}
                         wrongChoice={wrongChoice}
+                        rightChoice={rightChoice}
                     />
         })}
         </div>
