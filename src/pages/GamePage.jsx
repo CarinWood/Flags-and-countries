@@ -108,17 +108,11 @@ const GamePage = () => {
 
 
     const clearChoices = () => {
-        setTimeout(() => {
-            deleteFromArray()
             setChoiceOne('')
             setChoiceTwo('')
             setChooseFlag(null)
             setChooseName(null)
             setWrongChoice(false);
-         
-
-        }, 200)
-          
     }
 
     useEffect(() => {
@@ -126,12 +120,15 @@ const GamePage = () => {
         if (chooseFlag === chooseName) {
             console.log("It's a match!");
             setRightChoice(chooseFlag)
+            deleteFromArray()
             clearChoices();
             
         } else {
-            console.log("It's not a match");
             setWrongChoice(true);
-            clearChoices()
+            setTimeout(() => {
+                clearChoices()
+            }, 100)
+          
         }
     }
 }, [choiceOne, choiceTwo]);
