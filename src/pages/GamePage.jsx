@@ -15,13 +15,15 @@ const GamePage = () => {
     const [chooseName, setChooseName] = useState(null)
     const [wrongChoice, setWrongChoice] = useState(false)
     const [rightChoice, setRightChoice] = useState('')
+    const [matchesCount, setMatchesCount] = useState(0);
+    const [shouldShuffleNameArray, setShouldShuffleNameArray] = useState(false);
 
     useEffect(() => {
-        if(gameOn) {
-            shuffleArray()
+        if (gameOn && shouldShuffleNameArray) {
+            shuffleArray();
+            setShouldShuffleNameArray(false); // Reset the shuffle flag
         }
-
-    }, [gameOn])
+    }, [gameOn, shouldShuffleNameArray]);
 
     const populateArray = async(e) => {
         const regionName = e.target.value
@@ -41,7 +43,7 @@ const GamePage = () => {
           nameArrayCopy[j] = tempName;
         }
         setNameArray(nameArrayCopy);
-        console.log(nameArray)
+     
       };
 
    
@@ -84,8 +86,11 @@ const GamePage = () => {
         for (let i = 0; i < 5; i++) {
             randomCountry()  
         }
+        setShouldShuffleNameArray(true); 
 
-        setGameOn(true)
+        setGameOn(prev => {
+            return true
+        })
         
     }
 
@@ -101,9 +106,9 @@ const GamePage = () => {
     }
 
     const deleteFromArray = () => {
-        console.log(chooseName)
        setFlagArray(flagArray.filter(prev => prev.name.common !== chooseFlag))
        setNameArray(nameArray.filter(prev => prev.name.common !== chooseName))
+     
     }
 
 
@@ -115,13 +120,33 @@ const GamePage = () => {
             setWrongChoice(false);
     }
 
+    const resetArrays = () => {
+        setFlagArray([]);
+        setNameArray([]);
+        setGameOn(prev => {
+            return false
+        })
+        startGame()
+      };
+
+
+    useEffect(() => {
+        if(matchesCount === 5) {
+            resetArrays()
+            setMatchesCount(0)
+           
+
+        }
+      
+    }, [matchesCount])
+
     useEffect(() => {
     if (choiceOne && choiceTwo) {
         if (chooseFlag === chooseName) {
-            console.log("It's a match!");
             setRightChoice(chooseFlag)
             deleteFromArray()
             clearChoices();
+            setMatchesCount((prevCount) => prevCount + 1);
             
         } else {
             setWrongChoice(true);
